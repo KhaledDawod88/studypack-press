@@ -1,18 +1,16 @@
 # Samples
 
-Rendered output from the pipeline in this repo, committed so the result can be checked without building anything.
+Output from the pipeline in this repo, committed so the result can be checked without building anything.
 
 | File | What it is |
 | --- | --- |
-| `studypack-intro-statistics.pdf` | The full nine-page study pack for the sample course (A4, print-ready) |
-| `preview-cover.png` | Page 1, the cover |
-| `preview-topic.png` | Page 3, a topic page (objectives, key ideas, formula cards, worked example, self-check) |
-| `preview-formula-sheet.png` | Page 9, the one-page formula sheet |
+| `studypack-intro-statistics.html` | The full nine-page study pack for the sample course, as one self-contained HTML document (open it in any browser) |
+| `preview-cover.svg` | Page 1, the cover, as vector artwork written by `build.py --svg-cover` |
 
-Rebuild them with:
+The PDF is not committed: the repository holds text only. Build it with:
 
 ```bash
-python3 build.py configs/intro-statistics.json --preview-pages 1,3,9
+python3 build.py configs/intro-statistics.json
 ```
 
-The PNGs are page 1, 3 and 9 at 110 dpi. The PDF embeds three SIL Open Font License typefaces, which is why it is about 2 MB.
+or download it from the artifact of the `build sample` workflow run (Actions tab). The PDF embeds three SIL Open Font License typefaces, which is why it is about 2 MB.
