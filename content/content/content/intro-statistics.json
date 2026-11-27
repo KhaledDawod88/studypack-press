@@ -1,0 +1,615 @@
+{
+  "course": {
+    "code": "STAT 101",
+    "title": "Introduction to Statistics",
+    "subtitle": "Six topics, one page each: from describing data to testing a claim.",
+    "level": "Undergraduate, first course",
+    "edition": "Edition 1.0",
+    "source": {
+      "name": "OpenStax, Introductory Statistics 2e",
+      "url": "https://openstax.org/details/books/introductory-statistics-2e",
+      "license": "CC BY 4.0"
+    },
+    "alignment": "Aligned to the opening chapters of the open curriculum: data and study design, descriptive statistics, probability, sampling distributions, confidence intervals, hypothesis testing."
+  },
+  "sections": [
+    {
+      "id": "data-and-design",
+      "kicker": "Topic 1",
+      "title": "Data, variables and study design",
+      "objectives": [
+        "Tell a population from a sample, and a parameter from a statistic.",
+        "Classify a variable as categorical or quantitative, discrete or continuous.",
+        "Name the sampling method a study used and the bias it is exposed to."
+      ],
+      "lead": "Every result in this course answers one question: what does this sample let me say about a population I cannot measure in full? The vocabulary in this topic is what keeps that sentence honest.",
+      "key_ideas": [
+        "<b>Population</b> is the whole group you want a conclusion about. <b>Sample</b> is the part you actually measured.",
+        "<b>Parameter</b> (μ, p, σ) describes the population. <b>Statistic</b> (x̄, p̂, s) describes the sample. A parameter is fixed and unknown; a statistic moves from sample to sample.",
+        "<b>Categorical</b> variables are labels (major, blood type). <b>Quantitative</b> variables are numbers you can average (age, income).",
+        "Quantitative is <b>discrete</b> when it counts (number of siblings) and <b>continuous</b> when it measures (height, waiting time).",
+        "<b>Sampling methods.</b> Simple random: every group of size n is equally likely. Stratified: sample inside homogeneous groups. Cluster: sample whole groups. Systematic: every k-th unit. Convenience: whoever is easy, and biased.",
+        "<b>Observational study</b> watches without assigning a treatment. <b>Experiment</b> assigns one. Only a randomised experiment supports a cause-and-effect claim.",
+        "<b>Bias has names:</b> selection (who got in), undercoverage (who the frame missed), nonresponse (who did not answer), response (how the question was asked)."
+      ],
+      "formulas": [
+        {
+          "label": "Sample proportion",
+          "expr": "p̂ = x / n",
+          "note": "x counts the units with the trait in a sample of size n. It estimates p, it is not p."
+        },
+        {
+          "label": "Sample mean",
+          "expr": "x̄ = Σxᵢ / n",
+          "note": "Sum the n measured values, divide by n."
+        }
+      ],
+      "example": {
+        "title": "Worked example",
+        "problem": "A university surveys 400 of its 12,000 students; 232 say they would use a 24-hour study space.",
+        "steps": [
+          "Population: all 12,000 students. Sample: the 400 surveyed.",
+          "Parameter: p, the proportion of all 12,000 who would use the space, unknown. Statistic: p̂, from the 400.",
+          "The variable (would use it: yes or no) is categorical. The count x is quantitative and discrete.",
+          "p̂ = 232 / 400 = 0.58."
+        ],
+        "answer": "p̂ = 0.58 estimates the unknown p. \"58% of students want it\" states the parameter from one sample; the defensible claim is \"58% of the 400 surveyed\".",
+        "takeaway": "If those 400 were recruited in one library at noon, no margin of error repairs the bias. Fix the design, not the arithmetic."
+      },
+      "pitfalls": [
+        "Writing p = 0.58 when you mean p̂. The parameter stays unknown.",
+        "Reading an association from an observational study as a cause.",
+        "Quoting a margin of error for a convenience sample."
+      ],
+      "check": [
+        {
+          "q": "A study weighs 30 randomly chosen apples from a 5,000-apple orchard. What is the parameter?",
+          "a": "The mean weight of all 5,000 apples (μ), not the mean of the 30 (x̄)."
+        },
+        {
+          "q": "Is \"number of courses enrolled\" discrete or continuous?",
+          "a": "Discrete: it is a count, even though it can be large."
+        },
+        {
+          "q": "A news site polls its own readers about screen time. Name the bias.",
+          "a": "Undercoverage plus self-selection: the people who answer are not a random sample of any population."
+        }
+      ],
+      "map_label": "Data and design"
+    },
+    {
+      "id": "describing-data",
+      "kicker": "Topic 2",
+      "title": "Describing data: centre, spread, shape",
+      "objectives": [
+        "Summarise a quantitative variable with the right pair of centre and spread.",
+        "Find quartiles, the IQR and flag outliers with the 1.5 × IQR rule.",
+        "Describe a distribution's shape, and compare two distributions fairly."
+      ],
+      "lead": "A single number never describes data. Always report a centre with a spread, then say what shape the data has, because shape decides which centre and spread were honest to use.",
+      "key_ideas": [
+        "<b>Mean</b> balances the data; <b>median</b> splits it in half. The median resists outliers, the mean does not.",
+        "<b>Standard deviation</b> s is the typical distance of a value from the mean. <b>IQR</b> is the width of the middle half. Report s with the mean, IQR with the median.",
+        "<b>Quartiles.</b> Q1 leaves 25% of the data below it, Q3 leaves 75% below. IQR = Q3 − Q1.",
+        "<b>Outlier rule.</b> A value beyond Q1 − 1.5 × IQR or Q3 + 1.5 × IQR is a flagged outlier, not an error and not a deletion.",
+        "<b>z-score</b> says how many standard deviations a value sits from the mean. It is how you compare across different units.",
+        "<b>Shape.</b> Symmetric or skewed, one peak or several. In a right-skewed distribution the mean is pulled above the median.",
+        "<b>Compare with SOCS:</b> Shape, Outliers, Centre, Spread, in that order, in the units of the variable."
+      ],
+      "formulas": [
+        {
+          "label": "Mean and standard deviation",
+          "expr": "x̄ = Σxᵢ/n   s = √( Σ(xᵢ − x̄)² / (n − 1) )",
+          "note": "Divide by n − 1: the deviations are measured from x̄, which uses up one degree of freedom."
+        },
+        {
+          "label": "Quartiles and outlier fences",
+          "expr": "IQR = Q₃ − Q₁   fences: Q₁ − 1.5·IQR , Q₃ + 1.5·IQR",
+          "note": "The 1.5 rule is a convention for flagging, not a test of significance."
+        },
+        {
+          "label": "z-score",
+          "expr": "z = (x − x̄) / s",
+          "note": "z = +2 means two standard deviations above the mean."
+        }
+      ],
+      "example": {
+        "title": "Worked example",
+        "problem": "Nine tutorial groups report these attendance counts: 12, 14, 14, 15, 18, 21, 23, 24, 61. Summarise the distribution.",
+        "steps": [
+          "n = 9 and Σx = 202, so x̄ = 22.4.",
+          "The median is the 5th value: 18. Q₁ = 14, Q₃ = 23.5, so IQR = 9.5.",
+          "s = 15.1. The spread is large because of one value.",
+          "Upper fence: 23.5 + 1.5(9.5) = 37.75, so 61 is a flagged outlier. z = (61 − 22.4)/15.1 = 2.56.",
+          "Without 61 the mean falls to 17.6, near the median."
+        ],
+        "answer": "Report: \"median 18, IQR 9.5 (mean 22.4, s 15.1), right-skewed by one group of 61.\" The median and IQR describe the typical group; the mean and s are distorted by the outlier.",
+        "takeaway": "State the outlier, then report centre and spread that survive it. Never delete a value because it is inconvenient."
+      },
+      "pitfalls": [
+        "Reporting the mean and IQR together, or the median and s.",
+        "Saying \"the outlier should be removed\" without a reason from the study design.",
+        "Comparing spreads in different units without standardising first."
+      ],
+      "check": [
+        {
+          "q": "A distribution has mean 40 and median 52. Which way is it skewed?",
+          "a": "Left-skewed: the mean is pulled toward the long tail below the median."
+        },
+        {
+          "q": "Why divide by n − 1 rather than n in s?",
+          "a": "The deviations are taken from x̄, so only n − 1 of them are free; dividing by n − 1 makes s unbiased for σ."
+        },
+        {
+          "q": "Two classes have the same mean score. What else must you report before calling them equal?",
+          "a": "Spread and shape: the same mean can hide a tight class and a class split between very high and very low scores."
+        }
+      ],
+      "map_label": "Centre and spread"
+    },
+    {
+      "id": "probability",
+      "kicker": "Topic 3",
+      "title": "Probability and distributions",
+      "objectives": [
+        "Apply the addition, multiplication and complement rules without double counting.",
+        "Use conditional probability and Bayes' rule to reverse a conditional.",
+        "Work with the binomial and normal distributions, including the empirical rule."
+      ],
+      "lead": "Probability is the bridge between a sample and a claim. The two rules that carry most of the course are the complement (1 minus) and conditioning (given that).",
+      "key_ideas": [
+        "<b>Complement.</b> P(not A) = 1 − P(A). \"At least one\" is almost always easier as 1 − P(none).",
+        "<b>Addition.</b> P(A or B) = P(A) + P(B) − P(A and B). Subtract the overlap or you count it twice.",
+        "<b>Multiplication.</b> P(A and B) = P(A) · P(B | A). For independent events this collapses to P(A) · P(B).",
+        "<b>Conditional.</b> P(B | A) = P(A and B) / P(A). The denominator is the world you are now inside.",
+        "<b>Bayes.</b> A rare condition stays rare even after a positive test, because false positives outnumber true ones. Always condition on the evidence.",
+        "<b>Random variable.</b> Its mean is the expected value Σ x·P(x); its spread is the standard deviation of that distribution.",
+        "<b>Binomial:</b> fixed n independent trials, two outcomes, constant p. <b>Normal:</b> symmetric bell; the empirical rule gives 68%, 95%, 99.7% within 1, 2, 3 standard deviations."
+      ],
+      "formulas": [
+        {
+          "label": "Conditional probability",
+          "expr": "P(B | A) = P(A ∩ B) / P(A)",
+          "note": "Read the bar as \"given\": the sample space shrinks to A."
+        },
+        {
+          "label": "Binomial probability",
+          "expr": "P(X = k) = C(n,k) · pᵏ · (1 − p)ⁿ⁻ᵏ",
+          "note": "C(n,k) counts the orders in which the k successes can appear."
+        },
+        {
+          "label": "Standardising",
+          "expr": "z = (x − μ) / σ",
+          "note": "Turns any normal variable into the standard normal, so one table serves all."
+        }
+      ],
+      "example": {
+        "title": "Worked example",
+        "problem": "A disease affects 2% of a population. A test catches 95% of true cases and wrongly flags 10% of healthy people. A person tests positive. What is the chance they have the disease?",
+        "steps": [
+          "Split the population into the two ways a positive can happen.",
+          "True positive: 0.02 × 0.95 = 0.019.",
+          "False positive: 0.98 × 0.10 = 0.098.",
+          "P(positive) = 0.019 + 0.098 = 0.117.",
+          "P(disease | positive) = 0.019 / 0.117 = 0.162."
+        ],
+        "answer": "About 16%. The test is accurate in both directions, yet a positive result still leaves an 84% chance of no disease, because the disease is rare and the healthy group is huge.",
+        "takeaway": "Base rates dominate. This is the calculation behind every screening programme and every \"99% accurate\" headline."
+      },
+      "pitfalls": [
+        "Adding probabilities of events that can happen together.",
+        "Writing P(A | B) when you mean P(B | A): the test's accuracy is not the patient's chance.",
+        "Using the binomial formula when trials are not independent or p changes."
+      ],
+      "check": [
+        {
+          "q": "P(A) = 0.4, P(B) = 0.5, P(A and B) = 0.2. Are A and B independent?",
+          "a": "Yes: P(A) · P(B) = 0.2 = P(A and B), equivalently P(B | A) = 0.5 = P(B)."
+        },
+        {
+          "q": "Ten independent questions, each guessed with p = 0.3. P(exactly 3 right)?",
+          "a": "C(10,3) · 0.3³ · 0.7⁷ = 120 × 0.027 × 0.0824 ≈ 0.267."
+        },
+        {
+          "q": "Scores are normal with mean 70 and standard deviation 8. What share score above 86?",
+          "a": "z = 2, and 95% lie within ±2, so about 2.5% score above 86."
+        }
+      ],
+      "map_label": "Probability"
+    },
+    {
+      "id": "sampling-distributions",
+      "kicker": "Topic 4",
+      "title": "Sampling distributions and the central limit theorem",
+      "objectives": [
+        "Describe the sampling distribution of x̄ and of p̂.",
+        "Compute a standard error and explain what it measures.",
+        "State when the central limit theorem applies and why it is the engine of inference."
+      ],
+      "lead": "One sample gives one number. The sampling distribution is the picture of what that number would do if you took the sample again and again, and it is the thing every interval and test is built on.",
+      "key_ideas": [
+        "A <b>statistic</b> is a random variable: repeat the sample and x̄ changes. Its distribution is the <b>sampling distribution</b>.",
+        "The sampling distribution of x̄ is centred at μ, and its standard deviation is the <b>standard error</b> σ/√n.",
+        "<b>Standard error</b> measures the typical distance between a statistic and its parameter. It is not the spread of the data.",
+        "Quadruple n and the standard error halves. Precision is bought with √n, which is why doubling precision costs four times the sample.",
+        "<b>Central limit theorem.</b> For independent observations, the sampling distribution of x̄ is approximately normal for large n, whatever the shape of the population. Roughly n ≥ 30 unless the population is already normal or is extremely skewed.",
+        "For a proportion, p̂ is approximately normal when np ≥ 10 and n(1 − p) ≥ 10, with standard error √(p(1 − p)/n).",
+        "A <b>finite population correction</b> √((N − n)/(N − 1)) applies only when the sample is a large share (over about 5%) of a small population."
+      ],
+      "formulas": [
+        {
+          "label": "Standard error of a mean",
+          "expr": "SE(x̄) = σ / √n",
+          "note": "Estimated with s when σ is unknown, which is the usual case."
+        },
+        {
+          "label": "Standard error of a proportion",
+          "expr": "SE(p̂) = √( p(1 − p) / n )",
+          "note": "Use p̂ in the formula for an interval; use the hypothesised p for a test."
+        },
+        {
+          "label": "Standardised sample mean",
+          "expr": "z = (x̄ − μ) / SE(x̄)",
+          "note": "Valid when the sampling distribution is approximately normal."
+        }
+      ],
+      "example": {
+        "title": "Worked example",
+        "problem": "A machine fills bags with mean 48 g and standard deviation 12 g. A sample of 36 bags is weighed. Find the standard error and the chance the sample mean exceeds 51 g.",
+        "steps": [
+          "SE(x̄) = 12 / √36 = 2.0 g.",
+          "z = (51 − 48) / 2 = 1.5.",
+          "P(Z > 1.5) = 1 − 0.9332 = 0.0668.",
+          "The population of fill weights need not be normal: n = 36 is enough for the central limit theorem."
+        ],
+        "answer": "About 6.7% of samples of 36 bags will average above 51 g, even though the machine is set correctly. A single heavy sample is not proof of a fault.",
+        "takeaway": "The same 51 g from one bag is unremarkable; from an average of 36 it is a 1.5 standard error event, and that is the language a test speaks."
+      },
+      "pitfalls": [
+        "Calling the standard error the standard deviation of the data.",
+        "Applying the central limit theorem to a sample of 5 from a wildly skewed population.",
+        "Forgetting that the standard error shrinks with √n, not with n."
+      ],
+      "check": [
+        {
+          "q": "σ = 20. How large must n be for SE(x̄) = 2?",
+          "a": "n = (20/2)² = 100."
+        },
+        {
+          "q": "Why is the sampling distribution of x̄ narrower than the population?",
+          "a": "Averaging cancels high and low values, so sample means cluster closer to μ than individual observations do."
+        },
+        {
+          "q": "n = 400, p̂ = 0.5. Standard error?",
+          "a": "√(0.25/400) = 0.025, so about 2.5 percentage points."
+        }
+      ],
+      "map_label": "Sampling and CLT"
+    },
+    {
+      "id": "confidence-intervals",
+      "kicker": "Topic 5",
+      "title": "Confidence intervals",
+      "objectives": [
+        "Build and interpret a confidence interval for a mean and for a proportion.",
+        "Explain what 95% confidence covers, and what it does not.",
+        "Choose a sample size for a target margin of error."
+      ],
+      "lead": "An interval is a statement about the procedure, not about the parameter. That single sentence separates a correct answer from a confident wrong one.",
+      "key_ideas": [
+        "Shape: <b>estimate ± critical value × standard error</b>. The critical value is how many standard errors the confidence level buys.",
+        "For a mean with σ unknown, use t with n − 1 degrees of freedom. t is wider than z, and the gap closes as n grows.",
+        "For a proportion, use z with p̂ in the standard error, provided np̂ and n(1 − p̂) are both at least 10.",
+        "<b>Interpretation.</b> 95% confidence means: if we repeated the sampling procedure many times, about 95% of the intervals produced would contain the parameter. It does not mean the parameter has a 95% chance of being in this interval.",
+        "<b>Margin of error</b> is half the width. It shrinks with larger n and grows with higher confidence.",
+        "<b>Sample size planning.</b> n = (z*σ / E)², rounded up. To halve the margin of error you need four times the sample.",
+        "An interval that does not contain a hypothesised value is the same evidence as a two-sided test rejecting it at the matching level."
+      ],
+      "formulas": [
+        {
+          "label": "Confidence interval for a mean",
+          "expr": "x̄ ± t* · s/√n    (df = n − 1)",
+          "note": "Use z* instead when σ is known and the population is normal."
+        },
+        {
+          "label": "Confidence interval for a proportion",
+          "expr": "p̂ ± z* · √(p̂(1 − p̂)/n)",
+          "note": "z* = 1.645 for 90%, 1.96 for 95%, 2.576 for 99%."
+        },
+        {
+          "label": "Sample size for a target margin",
+          "expr": "n = ( z* · σ / E )²",
+          "note": "Always round up; use σ from a pilot study or a conservative guess."
+        }
+      ],
+      "example": {
+        "title": "Worked example",
+        "problem": "A sample of 25 students has a mean study time of 68.4 minutes per week with s = 9.2. Build a 95% confidence interval and interpret it.",
+        "steps": [
+          "df = 24, so t* = 2.064.",
+          "SE = 9.2 / √25 = 1.84 minutes.",
+          "Margin of error = 2.064 × 1.84 = 3.80 minutes.",
+          "Interval: 68.4 ± 3.80 = (64.6, 72.2) minutes."
+        ],
+        "answer": "We are 95% confident that the mean weekly study time of all students is between 64.6 and 72.2 minutes. Across repeated samples, about 95% of intervals built this way would capture the true mean.",
+        "takeaway": "The width is the honest part. A narrow interval from a biased sample is precisely wrong, and a wide interval from a good one is honestly uninformative."
+      },
+      "pitfalls": [
+        "Saying there is a 95% probability the mean lies in this particular interval.",
+        "Using z* with a small sample and an unknown σ.",
+        "Reporting an interval without units or without saying which parameter it covers."
+      ],
+      "check": [
+        {
+          "q": "σ = 9.2, target margin 2 minutes, 95% confidence. Sample size?",
+          "a": "n = (1.96 × 9.2 / 2)² = 81.3, so 82 students."
+        },
+        {
+          "q": "A 95% interval for a mean is (10.2, 12.8). Does a test of H₀: μ = 12 at α = 0.05 reject?",
+          "a": "No: 12 lies inside the interval, so the test does not reject."
+        },
+        {
+          "q": "What happens to the interval width if the sample doubles?",
+          "a": "It shrinks by a factor of about √2, roughly 29%, not by half."
+        }
+      ],
+      "map_label": "Intervals"
+    },
+    {
+      "id": "hypothesis-tests",
+      "kicker": "Topic 6",
+      "title": "Hypothesis tests",
+      "objectives": [
+        "Set up H₀ and Hₐ from a research question, and pick the correct tail.",
+        "Compute a test statistic and a p-value, and state the decision in context.",
+        "Interpret α, Type I and Type II error, and what a p-value does not say."
+      ],
+      "lead": "A test asks one narrow question: if the null hypothesis were true, how surprising is data like mine? Everything else in this topic follows from taking that sentence literally.",
+      "key_ideas": [
+        "H₀ is the \"nothing is happening\" claim and always contains an equality. Hₐ is what the researcher wants evidence for, and it sets the tail.",
+        "<b>Test statistic</b> = (estimate − hypothesised value) / standard error. It says how many standard errors the data sit from H₀.",
+        "<b>p-value</b> = the probability of data at least this extreme, computed <i>assuming H₀ is true</i>. It is not the probability that H₀ is true.",
+        "<b>Decision.</b> p ≤ α: reject H₀. p > α: fail to reject. \"Fail to reject\" is not \"H₀ is true\", only \"not enough evidence against it\".",
+        "<b>α</b> is the tolerated Type I error rate (rejecting a true H₀). <b>β</b> is the Type II rate (missing a real effect). Power = 1 − β, and it rises with larger n and larger true effects.",
+        "A test is only as good as its conditions: random sample, independence, and a sampling distribution that is approximately normal or a large enough n.",
+        "Report the estimate, the interval and the p-value together. A p-value alone hides the size of the effect."
+      ],
+      "formulas": [
+        {
+          "label": "One-sample t test",
+          "expr": "t = (x̄ − μ₀) / (s/√n)    df = n − 1",
+          "note": "Two-sided p doubles the one-tail area."
+        },
+        {
+          "label": "Two-proportion z test",
+          "expr": "z = (p̂₁ − p̂₂) / √( p̂(1 − p̂)(1/n₁ + 1/n₂) )",
+          "note": "p̂ is the pooled proportion, because H₀ says the two proportions are equal."
+        },
+        {
+          "label": "One-proportion z test",
+          "expr": "z = (p̂ − p₀) / √( p₀(1 − p₀)/n )",
+          "note": "The standard error uses p₀, the value H₀ assumes."
+        }
+      ],
+      "example": {
+        "title": "Worked example",
+        "problem": "A tutoring programme claims it raises the mean test score above 70. A sample of 16 students averages 72.5 with s = 6.0. Test at α = 0.05.",
+        "steps": [
+          "H₀: μ = 70. Hₐ: μ > 70 (one-sided, because the claim is an improvement).",
+          "SE = 6.0 / √16 = 1.5. t = (72.5 − 70) / 1.5 = 1.667 with df = 15.",
+          "One-sided p = 0.058, and the critical value is t* = 1.753.",
+          "1.667 < 1.753 and 0.058 > 0.05: fail to reject H₀."
+        ],
+        "answer": "The data are consistent with a real improvement, but not strong enough to rule out chance at the 5% level. Report the estimate and its interval: a 95% interval for the mean runs from 69.3 to 75.7, which still contains 70.",
+        "takeaway": "\"Not significant\" is a statement about evidence, not about truth. With a larger sample the same 2.5-point gain could become decisive."
+      },
+      "pitfalls": [
+        "Saying the p-value is the probability that H₀ is true.",
+        "Choosing a one-sided test after seeing which way the data went.",
+        "Treating p > 0.05 as proof of no effect, or p < 0.05 as proof of a large one."
+      ],
+      "check": [
+        {
+          "q": "Two groups: 45 of 120 and 32 of 110. Is the difference significant at α = 0.05?",
+          "a": "Pooled p̂ = 0.335, SE = 0.0623, z = 1.35, two-sided p = 0.18. Not significant."
+        },
+        {
+          "q": "You run 20 tests at α = 0.05 and all nulls are true. Expected false positives?",
+          "a": "About one. This is why multiple comparisons need a correction."
+        },
+        {
+          "q": "What raises the power of a test?",
+          "a": "A larger sample, a larger true effect, less variability, or a higher α (at the cost of more Type I errors)."
+        }
+      ],
+      "map_label": "Tests"
+    }
+  ],
+  "cheatsheet": [
+    {
+      "group": "Describing data",
+      "column": 1,
+      "items": [
+        {
+          "label": "Mean",
+          "expr": "x̄ = Σxᵢ / n"
+        },
+        {
+          "label": "Standard deviation",
+          "expr": "s = √(Σ(xᵢ − x̄)² / (n − 1))"
+        },
+        {
+          "label": "IQR",
+          "expr": "Q₃ − Q₁"
+        },
+        {
+          "label": "Outlier fences",
+          "expr": "Q₁ − 1.5·IQR , Q₃ + 1.5·IQR"
+        },
+        {
+          "label": "z-score",
+          "expr": "z = (x − x̄) / s"
+        }
+      ]
+    },
+    {
+      "group": "Inference",
+      "column": 1,
+      "items": [
+        {
+          "label": "Standard error, mean",
+          "expr": "SE = σ / √n"
+        },
+        {
+          "label": "Standard error, proportion",
+          "expr": "SE = √(p(1 − p)/n)"
+        },
+        {
+          "label": "CI for a mean",
+          "expr": "x̄ ± t* · s/√n , df = n − 1"
+        },
+        {
+          "label": "CI for a proportion",
+          "expr": "p̂ ± z* · √(p̂(1 − p̂)/n)"
+        },
+        {
+          "label": "One-sample t",
+          "expr": "t = (x̄ − μ₀) / (s/√n)"
+        },
+        {
+          "label": "Two-proportion z",
+          "expr": "z = (p̂₁ − p̂₂) / √(p̂(1 − p̂)(1/n₁ + 1/n₂))"
+        },
+        {
+          "label": "Sample size",
+          "expr": "n = (z*σ / E)²"
+        }
+      ]
+    },
+    {
+      "group": "Probability",
+      "column": 2,
+      "items": [
+        {
+          "label": "Complement",
+          "expr": "P(not A) = 1 − P(A)"
+        },
+        {
+          "label": "Addition",
+          "expr": "P(A or B) = P(A) + P(B) − P(A and B)"
+        },
+        {
+          "label": "Multiplication",
+          "expr": "P(A and B) = P(A) · P(B | A)"
+        },
+        {
+          "label": "Conditional",
+          "expr": "P(B | A) = P(A and B) / P(A)"
+        },
+        {
+          "label": "Binomial",
+          "expr": "P(X = k) = C(n,k) pᵏ (1 − p)ⁿ⁻ᵏ"
+        },
+        {
+          "label": "Standardise",
+          "expr": "z = (x − μ) / σ"
+        }
+      ]
+    },
+    {
+      "group": "Which test when",
+      "column": 2,
+      "kind": "pairs",
+      "items": [
+        {
+          "label": "One mean, σ unknown",
+          "expr": "one-sample t, df = n − 1"
+        },
+        {
+          "label": "One proportion",
+          "expr": "one-proportion z"
+        },
+        {
+          "label": "Two independent means",
+          "expr": "two-sample t"
+        },
+        {
+          "label": "Paired measurements",
+          "expr": "paired t on the differences"
+        },
+        {
+          "label": "Two proportions",
+          "expr": "two-proportion z"
+        },
+        {
+          "label": "Two categorical variables",
+          "expr": "chi-square test"
+        }
+      ]
+    },
+    {
+      "group": "Assumptions to state",
+      "column": 2,
+      "kind": "list",
+      "items": [
+        "Random sample, or random assignment in an experiment.",
+        "Observations independent: n at most about 10% of the population.",
+        "Means: population normal, or n large enough for the central limit theorem.",
+        "Proportions: at least 10 expected successes and 10 expected failures."
+      ]
+    },
+    {
+      "group": "Notation",
+      "column": 1,
+      "kind": "pairs",
+      "items": [
+        {
+          "label": "x̄ , μ",
+          "expr": "sample / population mean"
+        },
+        {
+          "label": "p̂ , p",
+          "expr": "sample / population proportion"
+        },
+        {
+          "label": "s , σ",
+          "expr": "sample / population SD"
+        },
+        {
+          "label": "n , N",
+          "expr": "sample / population size"
+        },
+        {
+          "label": "z* , t*",
+          "expr": "critical value"
+        },
+        {
+          "label": "SE",
+          "expr": "standard error"
+        },
+        {
+          "label": "df",
+          "expr": "degrees of freedom"
+        },
+        {
+          "label": "α , β",
+          "expr": "Type I / Type II error rate"
+        }
+      ]
+    }
+  ],
+  "reference_values": [
+    {
+      "label": "z* for 90% / 95% / 99%",
+      "value": "1.645 / 1.960 / 2.576"
+    },
+    {
+      "label": "Empirical rule",
+      "value": "68% · 95% · 99.7% within 1σ · 2σ · 3σ"
+    },
+    {
+      "label": "Normality for a proportion",
+      "value": "n p̂ ≥ 10 and n(1 − p̂) ≥ 10"
+    }
+  ]
+}
