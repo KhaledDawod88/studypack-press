@@ -6,7 +6,9 @@ Students do not need another feed. They need one clean artifact they can print, 
 
 The sample in `samples/` is built from the opening chapters of OpenStax *Introductory Statistics 2e*: six topics, nine pages.
 
-![Cover](samples/preview-cover.png)
+![Cover](samples/preview-cover.svg)
+
+The vector cover is written by the same build (`--svg-cover`), so it stays in step with the content and needs no binary in the repository.
 
 ## What a pack contains
 
@@ -19,7 +21,7 @@ The sample in `samples/` is built from the opening chapters of OpenStax *Introdu
 
 Each topic page is deliberately one page. If a topic grows past that, the build says so instead of silently spilling onto a second page.
 
-![A topic page](samples/preview-topic.png)
+Build the PDF with `python3 build.py configs/intro-statistics.json`, or download it from the artifact of the **build sample** workflow run (Actions tab). The repository holds text only, so the sample in `samples/` is the vector cover rather than a binary PDF.
 
 ## Quick start
 
@@ -96,7 +98,7 @@ A course is a pair of JSON files, so a new subject never means touching code.
 
 The cover artwork is generated, not drawn by hand: the bars are a normal density with a second small bump, and the curve over them is the same function, computed in `cover_art()`.
 
-![The formula sheet](samples/preview-formula-sheet.png)
+The formula sheet is the last page: every formula in the course, the "which test when" table, the assumptions to state, and a notation key.
 
 ## Free tools only
 
