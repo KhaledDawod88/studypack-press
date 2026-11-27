@@ -132,6 +132,98 @@ def cover_art(accent: str, deep: str) -> str:
 
 
 # --------------------------------------------------------------------------- #
+# vector cover: the same composition as page 1, as SVG (text, so it can live in
+# the repository next to the PDF and render in a README)
+# --------------------------------------------------------------------------- #
+
+def cover_svg(cfg: dict, content: dict) -> str:
+    theme = cfg["theme"]
+    course = content["course"]
+    sections = content["sections"]
+    w, h = 794, 1123  # A4 at 96 dpi
+    accent, deep, paper, muted, rule = (
+        theme["accent"], theme["deep"], theme["paper"], theme["muted"], theme["rule"],
+    )
+
+    bars = []
+    for i in range(56):
+        x = 98 + i * 12.4
+        t = (i - 27.5) / 9.0
+        y = math.exp(-0.5 * t * t) * 0.86 + 0.14 * math.exp(-0.5 * ((t - 1.6) / 0.55) ** 2)
+        bh = y * 150
+        bars.append(f'<rect x="{x:.1f}" y="{806 - bh:.1f}" width="7.2" height="{bh:.1f}" rx="1" fill="{accent}" opacity="0.16"/>')
+    pts = []
+    for i in range(120):
+        x = 98 + i * 5.77
+        t = (x - 98 - 0.5 * 56 * 12.4) / (9.0 * 12.4)
+        pts.append(f"{x:.1f},{806 - math.exp(-0.5 * t * t) * 0.86 * 150:.1f}")
+
+    chips, cx = [], 98
+    chips_y = 0  # set after the title block is measured
+
+    title_lines = []
+    words, line, lines = course["title"].split(), "", []
+    for word in words:
+        trial = (line + " " + word).strip()
+        if len(trial) > 17 and line:
+            lines.append(line)
+            line = word
+        else:
+            line = trial
+    lines.append(line)
+    title_y = 262
+    for i, text in enumerate(lines):
+        title_lines.append(
+            f'<text x="98" y="{title_y + i * 58}" font-family="Georgia, Source Serif 4, serif" font-size="47" '
+            f'font-weight="600" fill="{deep}">{html.escape(text)}</text>'
+        )
+
+    sub_words, sub_line, sub_lines = course["subtitle"].split(), "", []
+    for word in sub_words:
+        trial = (sub_line + " " + word).strip()
+        if len(trial) > 46 and sub_line:
+            sub_lines.append(sub_line)
+            sub_line = word
+        else:
+            sub_line = trial
+    sub_lines.append(sub_line)
+    sub_y = title_y + len(lines) * 58 + 6
+    sub = "".join(
+        f'<text x="98" y="{sub_y + i * 25}" font-family="Georgia, Source Serif 4, serif" font-size="15.5" '
+        f'fill="{muted}">{html.escape(text)}</text>'
+        for i, text in enumerate(sub_lines)
+    )
+    chips_y = sub_y + len(sub_lines) * 25 + 14
+    for label in (course["code"], course["level"], course["edition"]):
+        width = 20 + len(label) * 7.6
+        chips.append(
+            f'<rect x="{cx}" y="{chips_y}" width="{width:.0f}" height="27" rx="6" fill="none" stroke="{rule}"/>'
+            f'<text x="{cx + width / 2:.0f}" y="{chips_y + 18}" font-family="Inter, Helvetica, Arial, sans-serif" '
+            f'font-size="9.5" letter-spacing="1.1" text-anchor="middle" fill="{deep}">{html.escape(label.upper())}</text>'
+        )
+        cx += width + 13
+
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" role="img" aria-label="{html.escape(course['title'])} study pack cover">
+  <rect width="{w}" height="{h}" fill="{paper}"/>
+  <rect x="0" y="0" width="26" height="{h}" fill="{accent}"/>
+  <text x="98" y="222" font-family="Inter, Helvetica, Arial, sans-serif" font-size="10.5" font-weight="600"
+        letter-spacing="3.4" fill="{accent}">{html.escape(cfg.get('cover_eyebrow', 'Study pack').upper())}</text>
+  {''.join(title_lines)}
+  {sub}
+  {''.join(chips)}
+  {''.join(bars)}
+  <polyline points="{' '.join(pts)}" fill="none" stroke="{deep}" stroke-width="2.2" stroke-linejoin="round"/>
+  <line x1="98" y1="806" x2="786" y2="806" stroke="{deep}" stroke-width="1.1" opacity="0.55"/>
+  <line x1="441" y1="662" x2="441" y2="806" stroke="{accent}" stroke-width="1.2" stroke-dasharray="5 4" opacity="0.75"/>
+  <circle cx="441" cy="662" r="4" fill="{accent}"/>
+  <line x1="98" y1="985" x2="696" y2="985" stroke="{rule}" stroke-width="1"/>
+  <text x="98" y="1004" font-family="Inter, Helvetica, Arial, sans-serif" font-size="9" fill="{muted}">Built from {html.escape(course['source']['name'])} ({html.escape(course['source']['license'])})</text>
+  <text x="696" y="1004" text-anchor="end" font-family="Inter, Helvetica, Arial, sans-serif" font-size="9" fill="{muted}">{len(sections)} topics</text>
+</svg>
+"""
+
+
+# --------------------------------------------------------------------------- #
 # HTML
 # --------------------------------------------------------------------------- #
 
@@ -431,6 +523,7 @@ def main() -> None:
     parser.add_argument("--preview-dpi", type=int, default=110)
     parser.add_argument("--no-stamp", action="store_true", help="skip the footer and page numbers")
     parser.add_argument("--report", action="store_true", help="print a JSON build report")
+    parser.add_argument("--svg-cover", default=None, help="also write the cover as an SVG file")
     args = parser.parse_args()
 
     config_path = (ROOT / args.config).resolve()
@@ -466,6 +559,13 @@ def main() -> None:
         )
         if not stamped:
             print("warn   footer stamp skipped (reportlab and pypdf or qpdf not available)", file=sys.stderr)
+
+    if args.svg_cover:
+        svg_path = Path(args.svg_cover)
+        svg_path = svg_path if svg_path.is_absolute() else (ROOT / svg_path)
+        svg_path.parent.mkdir(parents=True, exist_ok=True)
+        svg_path.write_text(cover_svg(cfg, content), encoding="utf-8")
+        print(f"svg    {svg_path.relative_to(ROOT)}")
 
     previews = []
     if args.preview_pages:
