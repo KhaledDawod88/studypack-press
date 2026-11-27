@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>STAT 101 Introduction to Statistics &middot; Study pack</title>
+<meta name="author" content="StudyPack Press">
+<meta name="description" content="Six topics, one page each: from describing data to testing a claim.">
+<style>/* StudyPack Press: print stylesheet.
+   A4 paged media, rendered by headless Chrome. Tokens are filled in by build.py
+   from the config file, so one stylesheet serves every course. */
+
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("../fonts/SourceSerif4.ttf") format("truetype");
+  font-weight: 200 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono.ttf") format("truetype");
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+:root {
+  --accent: #1d4ed8;
+  --deep: #101a3d;
+  --ink: #151a2b;
+  --muted: #5b6478;
+  --rule: #d5dae5;
+  --paper: #fdfcf9;
+  --tint: #eef2fb;
+  --serif: "Source Serif 4", Georgia, "DejaVu Serif", serif;
+  --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+}
+
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+@page {
+  size: A4;
+  margin: 16mm 15mm 18mm 15mm;
+}
+@page :first {
+  margin: 0;
+}
+
+html { font-size: 10pt; }
+body {
+  margin: 0;
+  font-family: var(--serif);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  font-variant-ligatures: common-ligatures;
+}
+
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; }
+li { list-style: none; }
+
+.lbl {
+  font-family: var(--sans);
+  font-size: 6.9pt;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ cover */
+.cover {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  background: var(--paper);
+  overflow: hidden;
+  break-after: page;
+}
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 7mm;
+  background: var(--accent);
+}
+.cover-inner {
+  position: absolute;
+  top: 40mm;
+  left: 26mm;
+  right: 26mm;
+}
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 7.6pt;
+  font-weight: 650;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cover-title {
+  font-family: var(--serif);
+  font-size: 41pt;
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  color: var(--deep);
+  margin: 9mm 0 0;
+  max-width: 140mm;
+}
+.cover-sub {
+  font-size: 13.5pt;
+  line-height: 1.42;
+  color: var(--muted);
+  margin-top: 7mm;
+  max-width: 118mm;
+}
+.cover-meta { display: flex; gap: 3.5mm; margin-top: 11mm; }
+.chip {
+  font-family: var(--sans);
+  font-size: 7.4pt;
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--deep);
+  border: 0.5pt solid var(--rule);
+  border-radius: 1.6mm;
+  padding: 1.8mm 3.4mm;
+}
+.cover-art {
+  position: absolute;
+  left: 26mm;
+  right: 26mm;
+  bottom: 40mm;
+  width: calc(100% - 52mm);
+  height: 96mm;
+}
+.cover-foot {
+  position: absolute;
+  left: 26mm;
+  right: 26mm;
+  bottom: 16mm;
+  display: flex;
+  justify-content: space-between;
+  gap: 8mm;
+  border-top: 0.5pt solid var(--rule);
+  padding-top: 3.2mm;
+  font-family: var(--sans);
+  font-size: 7.2pt;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------- contents */
+.contents { break-after: page; }
+.page-title {
+  font-family: var(--serif);
+  font-size: 25pt;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--deep);
+  margin: 0 0 4mm;
+  padding-bottom: 3mm;
+  border-bottom: 1.4pt solid var(--deep);
+}
+.contents-note {
+  font-size: 9.4pt;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 150mm;
+  margin-bottom: 9mm;
+}
+.toc { margin-bottom: 10mm; }
+.toc-row {
+  display: flex;
+  align-items: baseline;
+  gap: 3mm;
+  padding: 3.1mm 0;
+  border-bottom: 0.5pt solid var(--rule);
+}
+.toc-num {
+  font-family: var(--sans);
+  font-size: 7.6pt;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  width: 9mm;
+}
+.toc-title { font-size: 11.4pt; color: var(--deep); }
+.toc-dots { flex: 1; border-bottom: 0.5pt dotted var(--rule); transform: translateY(-1.1mm); }
+.toc-page {
+  font-family: var(--sans);
+  font-size: 8.6pt;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.map { margin: 0 0 9mm; }
+.map .lbl { display: block; margin-bottom: 2.6mm; color: var(--deep); }
+.map-row { display: flex; align-items: stretch; margin-bottom: 2.4mm; }
+.map-node {
+  flex: 1;
+  border: 0.5pt solid var(--rule);
+  border-radius: 1.4mm;
+  background: #ffffff;
+  padding: 2.4mm 2.8mm 2.6mm;
+}
+.map-node .n {
+  font-family: var(--sans);
+  font-size: 6.6pt;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+.map-node .t { display: block; font-size: 8.8pt; color: var(--deep); margin-top: 0.8mm; }
+.map-arrow { display: flex; align-items: center; padding: 0 2mm; color: var(--muted); font-size: 9pt; }
+.how-to { display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; border-top: 0.5pt solid var(--rule); padding-top: 4mm; }
+.how-to-item { font-size: 8.4pt; line-height: 1.42; color: var(--muted); }
+.how-to-item .lbl { display: block; margin-bottom: 1.6mm; color: var(--deep); }
+.rebuild { margin-top: 9mm; border-top: 0.5pt solid var(--rule); padding-top: 4mm; }
+.rebuild pre {
+  font-family: var(--mono);
+  font-size: 7.6pt;
+  line-height: 1.5;
+  background: var(--tint);
+  border-radius: 1.4mm;
+  padding: 2.6mm 3mm;
+  margin: 2mm 0 2.4mm;
+  color: var(--deep);
+}
+.rebuild p { font-size: 8.2pt; line-height: 1.42; color: var(--muted); max-width: 150mm; }
+.rebuild .mono { font-family: var(--mono); font-size: 7.6pt; color: var(--deep); }
+
+/* ----------------------------------------------------------------- topics */
+.topic { break-before: page; }
+.topic-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 5.5mm;
+  border-bottom: 1.4pt solid var(--deep);
+  padding-top: 1.4mm;
+  padding-bottom: 3mm;
+  margin-bottom: 3.6mm;
+}
+.topic-head .num {
+  font-family: var(--serif);
+  font-size: 27pt;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  min-width: 17mm;
+}
+.topic-head .kicker {
+  font-family: var(--sans);
+  font-size: 6.9pt;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.topic-head h2 {
+  font-family: var(--serif);
+  font-size: 18.5pt;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.012em;
+  color: var(--deep);
+  margin: 1.4mm 0 0;
+}
+
+.objectives {
+  background: var(--tint);
+  border-left: 2pt solid var(--accent);
+  padding: 2.7mm 3.6mm 2.9mm;
+  margin-bottom: 3.4mm;
+}
+.objectives ul { margin-top: 1.8mm; }
+.objectives li {
+  font-size: 8.4pt;
+  line-height: 1.34;
+  padding-left: 3.4mm;
+  position: relative;
+}
+.objectives li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.6mm;
+  width: 1.5mm;
+  height: 1.5mm;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.55;
+}
+
+.lead {
+  font-size: 10.2pt;
+  line-height: 1.42;
+  color: var(--ink);
+  margin-bottom: 3.1mm;
+  max-width: 172mm;
+}
+
+.section-lbl { margin-bottom: 2mm; }
+.ideas {
+  columns: 2;
+  column-gap: 6.5mm;
+  margin-bottom: 3mm;
+}
+.ideas li {
+  font-size: 8.0pt;
+  line-height: 1.32;
+  padding-left: 3mm;
+  position: relative;
+  margin-bottom: 1.1mm;
+  break-inside: avoid;
+}
+.ideas li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.35mm;
+  width: 3mm;
+  height: 0.5pt;
+  background: var(--muted);
+  opacity: 0.7;
+}
+.ideas b { font-weight: 650; color: var(--deep); }
+
+.formulas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.2mm;
+  margin-bottom: 3.2mm;
+}
+.fcard {
+  border: 0.5pt solid var(--rule);
+  border-radius: 1.4mm;
+  background: #ffffff;
+  padding: 2.2mm 2.8mm 2.4mm;
+}
+.fcard .ex {
+  font-family: var(--mono);
+  font-size: 8.1pt;
+  font-weight: 500;
+  line-height: 1.36;
+  color: var(--deep);
+  margin: 1.4mm 0 1.2mm;
+}
+.fcard .note { font-size: 7.4pt; font-style: italic; line-height: 1.34; color: var(--muted); }
+
+.example {
+  border-left: 2pt solid var(--deep);
+  padding: 0 0 0 4mm;
+  margin-bottom: 3.2mm;
+}
+.example .problem { font-size: 8.6pt; line-height: 1.36; margin-top: 1.4mm; font-weight: 550; }
+.example .steps { margin: 1.8mm 0 0; }
+.example .steps li {
+  font-size: 8.0pt;
+  line-height: 1.33;
+  padding-left: 5mm;
+  position: relative;
+  margin-bottom: 0.7mm;
+}
+.example .steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.1mm;
+  font-family: var(--sans);
+  font-size: 6.6pt;
+  font-weight: 650;
+  color: var(--accent);
+  width: 3.4mm;
+}
+.example .steps { counter-reset: step; }
+.example .answer {
+  font-size: 8.3pt;
+  line-height: 1.36;
+  margin-top: 1.7mm;
+  color: var(--ink);
+}
+.example .takeaway {
+  font-size: 7.6pt;
+  font-style: italic;
+  line-height: 1.32;
+  color: var(--muted);
+  margin-top: 1.6mm;
+}
+
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 7mm;
+  border-top: 0.5pt solid var(--rule);
+  padding-top: 3mm;
+}
+.pitfalls li {
+  font-size: 7.6pt;
+  line-height: 1.32;
+  color: var(--muted);
+  padding-left: 3.4mm;
+  position: relative;
+  margin-bottom: 1.3mm;
+}
+.pitfalls li::before {
+  content: "\2013";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+.check ol { counter-reset: q; margin-top: 1.6mm; }
+.check li {
+  counter-increment: q;
+  font-size: 7.6pt;
+  line-height: 1.32;
+  margin-bottom: 1.6mm;
+  padding-left: 4.4mm;
+  position: relative;
+}
+.check li::before {
+  content: counter(q);
+  position: absolute;
+  left: 0;
+  font-family: var(--sans);
+  font-size: 6.6pt;
+  font-weight: 650;
+  color: var(--accent);
+}
+.check .q { display: block; color: var(--ink); }
+.check .a { display: block; color: var(--muted); font-style: italic; margin-top: 0.4mm; }
+
+/* ------------------------------------------------------------ formula sheet */
+.cheat { break-before: page; }
+.cheat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8mm;
+  margin-bottom: 5mm;
+  align-items: start;
+}
+.cheat-col .cheat-group + .cheat-group { margin-top: 7mm; }
+.cheat-group .lbl { display: block; padding-bottom: 1.6mm; border-bottom: 1pt solid var(--deep); margin-bottom: 2.4mm; color: var(--deep); }
+.cheat-item {
+  display: grid;
+  grid-template-columns: 34mm 1fr;
+  gap: 2mm;
+  align-items: baseline;
+  padding: 1.5mm 0;
+  border-bottom: 0.4pt dotted var(--rule);
+}
+.cheat-pair {
+  display: grid;
+  grid-template-columns: 40mm 1fr;
+  gap: 2mm;
+  align-items: baseline;
+  padding: 1.5mm 0;
+  border-bottom: 0.4pt dotted var(--rule);
+}
+.cheat-list { margin-top: 2mm; }
+.cheat-list li {
+  font-size: 7.9pt;
+  line-height: 1.36;
+  color: var(--ink);
+  padding-left: 3.4mm;
+  position: relative;
+  margin-bottom: 1.4mm;
+}
+.cheat-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.3mm;
+  width: 2.6mm;
+  height: 0.5pt;
+  background: var(--accent);
+  opacity: 0.6;
+}
+.cheat-lbl { font-family: var(--sans); font-size: 7.1pt; font-weight: 550; color: var(--muted); }
+.cheat-ex { font-family: var(--mono); font-size: 7.7pt; line-height: 1.35; color: var(--deep); }
+.refs {
+  border-top: 0.5pt solid var(--rule);
+  padding-top: 3mm;
+  display: grid;
+  gap: 1.6mm;
+}
+.ref { display: grid; grid-template-columns: 58mm 1fr; gap: 2mm; align-items: baseline; }
+.ref-val { font-family: var(--mono); font-size: 7.7pt; color: var(--deep); }
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="cover-inner">
+    <div class="eyebrow">Study pack</div>
+    <h1 class="cover-title">Introduction to Statistics</h1>
+    <p class="cover-sub">Six topics, one page each: from describing data to testing a claim.</p>
+    <div class="cover-meta">
+      <span class="chip">STAT 101</span>
+      <span class="chip">Undergraduate, first course</span>
+      <span class="chip">Edition 1.0</span>
+    </div>
+  </div>
+  <svg class="cover-art" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+  <rect x="40.0" y="248.4" width="9.5" height="1.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="56.4" y="247.7" width="9.5" height="2.3" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="72.8" y="246.9" width="9.5" height="3.1" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="89.2" y="245.8" width="9.5" height="4.2" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="105.6" y="244.3" width="9.5" height="5.7" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="122.0" y="242.4" width="9.5" height="7.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="138.4" y="240.1" width="9.5" height="9.9" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="154.8" y="237.1" width="9.5" height="12.9" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="171.2" y="233.6" width="9.5" height="16.4" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="187.6" y="229.2" width="9.5" height="20.8" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="204.0" y="224.0" width="9.5" height="26.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="220.4" y="218.0" width="9.5" height="32.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="236.8" y="211.0" width="9.5" height="39.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="253.2" y="203.0" width="9.5" height="47.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="269.6" y="194.2" width="9.5" height="55.8" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="286.0" y="184.4" width="9.5" height="65.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="302.4" y="174.0" width="9.5" height="76.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="318.8" y="162.9" width="9.5" height="87.1" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="335.2" y="151.5" width="9.5" height="98.5" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="351.6" y="139.9" width="9.5" height="110.1" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="368.0" y="128.5" width="9.5" height="121.5" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="384.4" y="117.5" width="9.5" height="132.5" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="400.8" y="107.3" width="9.5" height="142.7" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="417.2" y="98.2" width="9.5" height="151.8" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="433.6" y="90.5" width="9.5" height="159.5" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="450.0" y="84.4" width="9.5" height="165.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="466.4" y="80.2" width="9.5" height="169.8" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="482.8" y="78.0" width="9.5" height="172.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="499.2" y="77.7" width="9.5" height="172.3" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="515.6" y="79.4" width="9.5" height="170.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="532.0" y="83.0" width="9.5" height="167.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="548.4" y="88.0" width="9.5" height="162.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="564.8" y="94.4" width="9.5" height="155.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="581.2" y="101.7" width="9.5" height="148.3" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="597.6" y="109.7" width="9.5" height="140.3" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="614.0" y="117.9" width="9.5" height="132.1" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="630.4" y="126.1" width="9.5" height="123.9" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="646.8" y="134.3" width="9.5" height="115.7" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="663.2" y="142.4" width="9.5" height="107.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="679.6" y="150.4" width="9.5" height="99.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="696.0" y="158.4" width="9.5" height="91.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="712.4" y="166.6" width="9.5" height="83.4" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="728.8" y="175.0" width="9.5" height="75.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="745.2" y="183.6" width="9.5" height="66.4" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="761.6" y="192.4" width="9.5" height="57.6" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="778.0" y="201.0" width="9.5" height="49.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="794.4" y="209.3" width="9.5" height="40.7" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="810.8" y="217.1" width="9.5" height="32.9" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="827.2" y="224.0" width="9.5" height="26.0" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="843.6" y="230.1" width="9.5" height="19.9" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="860.0" y="235.1" width="9.5" height="14.9" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="876.4" y="239.1" width="9.5" height="10.9" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="892.8" y="242.3" width="9.5" height="7.7" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="909.2" y="244.6" width="9.5" height="5.4" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="925.6" y="246.3" width="9.5" height="3.7" rx="1.2" fill="#1d4ed8" opacity="0.16"/><rect x="942.0" y="247.5" width="9.5" height="2.5" rx="1.2" fill="#1d4ed8" opacity="0.16"/>
+  <polyline points="40.0,248.6 47.6,248.4 55.3,248.1 62.9,247.8 70.5,247.5 78.2,247.1 85.8,246.6 93.4,246.1 101.0,245.5 108.7,244.8 116.3,244.1 123.9,243.2 131.6,242.3 139.2,241.2 146.8,240.0 154.4,238.8 162.1,237.3 169.7,235.8 177.3,234.0 185.0,232.2 192.6,230.1 200.2,227.9 207.9,225.5 215.5,222.9 223.1,220.1 230.8,217.1 238.4,213.9 246.0,210.5 253.6,206.9 261.3,203.1 268.9,199.1 276.5,194.9 284.2,190.5 291.8,185.9 299.4,181.2 307.1,176.3 314.7,171.3 322.3,166.1 329.9,160.9 337.6,155.6 345.2,150.2 352.8,144.8 360.5,139.4 368.1,134.1 375.7,128.8 383.4,123.6 391.0,118.5 398.6,113.6 406.2,108.9 413.9,104.5 421.5,100.3 429.1,96.3 436.8,92.7 444.4,89.5 452.0,86.6 459.6,84.1 467.3,82.0 474.9,80.3 482.5,79.1 490.2,78.3 497.8,78.0 505.4,78.2 513.1,78.8 520.7,79.8 528.3,81.3 536.0,83.2 543.6,85.6 551.2,88.4 558.8,91.5 566.5,95.0 574.1,98.8 581.7,102.9 589.4,107.3 597.0,111.9 604.6,116.7 612.2,121.7 619.9,126.9 627.5,132.1 635.1,137.5 642.8,142.8 650.4,148.2 658.0,153.6 665.7,158.9 673.3,164.2 680.9,169.4 688.5,174.5 696.2,179.4 703.8,184.2 711.4,188.8 719.1,193.3 726.7,197.6 734.3,201.6 742.0,205.5 749.6,209.2 757.2,212.7 764.9,215.9 772.5,219.0 780.1,221.9 787.7,224.5 795.4,227.0 803.0,229.3 810.6,231.4 818.3,233.4 825.9,235.1 833.5,236.8 841.1,238.2 848.8,239.6 856.4,240.8 864.0,241.9 871.7,242.9 879.3,243.8 886.9,244.5 894.6,245.2 902.2,245.9 909.8,246.4 917.4,246.9 925.1,247.3 932.7,247.7 940.3,248.0 948.0,248.3" fill="none" stroke="#101a3d" stroke-width="2.4" stroke-linejoin="round"/>
+  <line x1="40" y1="250" x2="960" y2="250" stroke="#101a3d" stroke-width="1.2" opacity="0.55"/>
+  <line x1="343.4" y1="60" x2="343.4" y2="250" stroke="#1d4ed8" stroke-width="1.4" stroke-dasharray="6 5" opacity="0.75"/>
+  <circle cx="343.4" cy="60" r="5" fill="#1d4ed8"/>
+</svg>
+  <div class="cover-foot">
+    <span>Built from OpenStax, Introductory Statistics 2e (CC BY 4.0)</span>
+    <span>6 topics &middot; 9 pages</span>
+  </div>
+</section><section class="contents">
+  <h2 class="page-title">Contents</h2>
+  <p class="contents-note">Aligned to the opening chapters of the open curriculum: data and study design, descriptive statistics, probability, sampling distributions, confidence intervals, hypothesis testing.</p>
+  <ol class="toc"><li class="toc-row">
+      <span class="toc-num">01</span>
+      <span class="toc-title">Data, variables and study design</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">3</span>
+    </li><li class="toc-row">
+      <span class="toc-num">02</span>
+      <span class="toc-title">Describing data: centre, spread, shape</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">4</span>
+    </li><li class="toc-row">
+      <span class="toc-num">03</span>
+      <span class="toc-title">Probability and distributions</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">5</span>
+    </li><li class="toc-row">
+      <span class="toc-num">04</span>
+      <span class="toc-title">Sampling distributions and the central limit theorem</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">6</span>
+    </li><li class="toc-row">
+      <span class="toc-num">05</span>
+      <span class="toc-title">Confidence intervals</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">7</span>
+    </li><li class="toc-row">
+      <span class="toc-num">06</span>
+      <span class="toc-title">Hypothesis tests</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">8</span>
+    </li><li class="toc-row">
+      <span class="toc-num">&mdash;</span>
+      <span class="toc-title">One-page formula sheet</span>
+      <span class="toc-dots"></span>
+      <span class="toc-page">9</span>
+    </li></ol>
+  <div class="map">
+    <div class="lbl">How the six topics connect</div>
+    <div class="map-row"><div class="map-node"><span class="n">01</span><span class="t">Data and design</span></div><div class="map-arrow">&#8594;</div><div class="map-node"><span class="n">02</span><span class="t">Centre and spread</span></div><div class="map-arrow">&#8594;</div><div class="map-node"><span class="n">03</span><span class="t">Probability</span></div></div><div class="map-row"><div class="map-node"><span class="n">04</span><span class="t">Sampling and CLT</span></div><div class="map-arrow">&#8594;</div><div class="map-node"><span class="n">05</span><span class="t">Intervals</span></div><div class="map-arrow">&#8594;</div><div class="map-node"><span class="n">06</span><span class="t">Tests</span></div></div>
+  </div>
+  <div class="how-to">
+    <div class="how-to-item"><span class="lbl">How to use this pack</span>
+      Read one topic, then close the pack and say the three objectives out loud. Open it again only for the
+      formula cards and the self-check.</div>
+    <div class="how-to-item"><span class="lbl">What each page holds</span>
+      Objectives, the idea in one paragraph, key ideas, formula cards, one worked example, common mistakes,
+      and three questions with answers.</div>
+  </div>
+  <div class="rebuild">
+    <div class="lbl">Rebuild this pack</div>
+    <pre>python3 tools/fetch_fonts.sh
+python3 build.py configs/intro-statistics.json</pre>
+    <p>Swap the course by editing the pair of JSON files: <span class="mono">configs/</span> holds the paper,
+    footer and accent, <span class="mono">content/</span> holds the material. One topic is one page, and the
+    build tells you when a topic no longer fits.</p>
+  </div>
+</section><section class="topic">
+  <header class="topic-head">
+    <div class="num">01</div>
+    <div class="head-text">
+      <div class="kicker">Topic 1 of 6</div>
+      <h2>Data, variables and study design</h2>
+    </div>
+  </header>
+  <div class="objectives">
+    <div class="lbl">By the end of this page you can</div>
+    <ul><li>Tell a population from a sample, and a parameter from a statistic.</li><li>Classify a variable as categorical or quantitative, discrete or continuous.</li><li>Name the sampling method a study used and the bias it is exposed to.</li></ul>
+  </div>
+  <p class="lead">Every result in this course answers one question: what does this sample let me say about a population I cannot measure in full? The vocabulary in this topic is what keeps that sentence honest.</p>
+  <div class="lbl section-lbl">Key ideas</div>
+  <ul class="ideas"><li><b>Population</b> is the whole group you want a conclusion about. <b>Sample</b> is the part you actually measured.</li><li><b>Parameter</b> (μ, p, σ) describes the population. <b>Statistic</b> (x̄, p̂, s) describes the sample. A parameter is fixed and unknown; a statistic moves from sample to sample.</li><li><b>Categorical</b> variables are labels (major, blood type). <b>Quantitative</b> variables are numbers you can average (age, income).</li><li>Quantitative is <b>discrete</b> when it counts (number of siblings) and <b>continuous</b> when it measures (height, waiting time).</li><li><b>Sampling methods.</b> Simple random: every group of size n is equally likely. Stratified: sample inside homogeneous groups. Cluster: sample whole groups. Systematic: every k-th unit. Convenience: whoever is easy, and biased.</li><li><b>Observational study</b> watches without assigning a treatment. <b>Experiment</b> assigns one. Only a randomised experiment supports a cause-and-effect claim.</li><li><b>Bias has names:</b> selection (who got in), undercoverage (who the frame missed), nonresponse (who did not answer), response (how the question was asked).</li></ul>
+  <div class="formulas"><div class="fcard">
+        <div class="lbl">Sample proportion</div>
+        <div class="ex">p̂ = x / n</div>
+        <div class="note">x counts the units with the trait in a sample of size n. It estimates p, it is not p.</div>
+      </div><div class="fcard">
+        <div class="lbl">Sample mean</div>
+        <div class="ex">x̄ = Σxᵢ / n</div>
+        <div class="note">Sum the n measured values, divide by n.</div>
+      </div></div>
+  <div class="example">
+    <div class="lbl">Worked example</div>
+    <p class="problem">A university surveys 400 of its 12,000 students; 232 say they would use a 24-hour study space.</p>
+    <ol class="steps"><li>Population: all 12,000 students. Sample: the 400 surveyed.</li><li>Parameter: p, the proportion of all 12,000 who would use the space, unknown. Statistic: p̂, from the 400.</li><li>The variable (would use it: yes or no) is categorical. The count x is quantitative and discrete.</li><li>p̂ = 232 / 400 = 0.58.</li></ol>
+    <p class="answer">p̂ = 0.58 estimates the unknown p. "58% of students want it" states the parameter from one sample; the defensible claim is "58% of the 400 surveyed".</p>
+    <p class="takeaway">If those 400 were recruited in one library at noon, no margin of error repairs the bias. Fix the design, not the arithmetic.</p>
+  </div>
+  <div class="bottom">
+    <div class="pitfalls">
+      <div class="lbl">Common mistakes</div>
+      <ul><li>Writing p = 0.58 when you mean p̂. The parameter stays unknown.</li><li>Reading an association from an observational study as a cause.</li><li>Quoting a margin of error for a convenience sample.</li></ul>
+    </div>
+    <div class="check">
+      <div class="lbl">Check yourself</div>
+      <ol><li><span class="q">A study weighs 30 randomly chosen apples from a 5,000-apple orchard. What is the parameter?</span>
+        <span class="a">The mean weight of all 5,000 apples (μ), not the mean of the 30 (x̄).</span></li><li><span class="q">Is "number of courses enrolled" discrete or continuous?</span>
+        <span class="a">Discrete: it is a count, even though it can be large.</span></li><li><span class="q">A news site polls its own readers about screen time. Name the bias.</span>
+        <span class="a">Undercoverage plus self-selection: the people who answer are not a random sample of any population.</span></li></ol>
+    </div>
+  </div>
+</section><section class="topic">
+  <header class="topic-head">
+    <div class="num">02</div>
+    <div class="head-text">
+      <div class="kicker">Topic 2 of 6</div>
+      <h2>Describing data: centre, spread, shape</h2>
+    </div>
+  </header>
+  <div class="objectives">
+    <div class="lbl">By the end of this page you can</div>
+    <ul><li>Summarise a quantitative variable with the right pair of centre and spread.</li><li>Find quartiles, the IQR and flag outliers with the 1.5 × IQR rule.</li><li>Describe a distribution's shape, and compare two distributions fairly.</li></ul>
+  </div>
+  <p class="lead">A single number never describes data. Always report a centre with a spread, then say what shape the data has, because shape decides which centre and spread were honest to use.</p>
+  <div class="lbl section-lbl">Key ideas</div>
+  <ul class="ideas"><li><b>Mean</b> balances the data; <b>median</b> splits it in half. The median resists outliers, the mean does not.</li><li><b>Standard deviation</b> s is the typical distance of a value from the mean. <b>IQR</b> is the width of the middle half. Report s with the mean, IQR with the median.</li><li><b>Quartiles.</b> Q1 leaves 25% of the data below it, Q3 leaves 75% below. IQR = Q3 − Q1.</li><li><b>Outlier rule.</b> A value beyond Q1 − 1.5 × IQR or Q3 + 1.5 × IQR is a flagged outlier, not an error and not a deletion.</li><li><b>z-score</b> says how many standard deviations a value sits from the mean. It is how you compare across different units.</li><li><b>Shape.</b> Symmetric or skewed, one peak or several. In a right-skewed distribution the mean is pulled above the median.</li><li><b>Compare with SOCS:</b> Shape, Outliers, Centre, Spread, in that order, in the units of the variable.</li></ul>
+  <div class="formulas"><div class="fcard">
+        <div class="lbl">Mean and standard deviation</div>
+        <div class="ex">x̄ = Σxᵢ/n   s = √( Σ(xᵢ − x̄)² / (n − 1) )</div>
+        <div class="note">Divide by n − 1: the deviations are measured from x̄, which uses up one degree of freedom.</div>
+      </div><div class="fcard">
+        <div class="lbl">Quartiles and outlier fences</div>
+        <div class="ex">IQR = Q₃ − Q₁   fences: Q₁ − 1.5·IQR , Q₃ + 1.5·IQR</div>
+        <div class="note">The 1.5 rule is a convention for flagging, not a test of significance.</div>
+      </div><div class="fcard">
+        <div class="lbl">z-score</div>
+        <div class="ex">z = (x − x̄) / s</div>
+        <div class="note">z = +2 means two standard deviations above the mean.</div>
+      </div></div>
+  <div class="example">
+    <div class="lbl">Worked example</div>
+    <p class="problem">Nine tutorial groups report these attendance counts: 12, 14, 14, 15, 18, 21, 23, 24, 61. Summarise the distribution.</p>
+    <ol class="steps"><li>n = 9 and Σx = 202, so x̄ = 22.4.</li><li>The median is the 5th value: 18. Q₁ = 14, Q₃ = 23.5, so IQR = 9.5.</li><li>s = 15.1. The spread is large because of one value.</li><li>Upper fence: 23.5 + 1.5(9.5) = 37.75, so 61 is a flagged outlier. z = (61 − 22.4)/15.1 = 2.56.</li><li>Without 61 the mean falls to 17.6, near the median.</li></ol>
+    <p class="answer">Report: "median 18, IQR 9.5 (mean 22.4, s 15.1), right-skewed by one group of 61." The median and IQR describe the typical group; the mean and s are distorted by the outlier.</p>
+    <p class="takeaway">State the outlier, then report centre and spread that survive it. Never delete a value because it is inconvenient.</p>
+  </div>
+  <div class="bottom">
+    <div class="pitfalls">
+      <div class="lbl">Common mistakes</div>
+      <ul><li>Reporting the mean and IQR together, or the median and s.</li><li>Saying "the outlier should be removed" without a reason from the study design.</li><li>Comparing spreads in different units without standardising first.</li></ul>
+    </div>
+    <div class="check">
+      <div class="lbl">Check yourself</div>
+      <ol><li><span class="q">A distribution has mean 40 and median 52. Which way is it skewed?</span>
+        <span class="a">Left-skewed: the mean is pulled toward the long tail below the median.</span></li><li><span class="q">Why divide by n − 1 rather than n in s?</span>
+        <span class="a">The deviations are taken from x̄, so only n − 1 of them are free; dividing by n − 1 makes s unbiased for σ.</span></li><li><span class="q">Two classes have the same mean score. What else must you report before calling them equal?</span>
+        <span class="a">Spread and shape: the same mean can hide a tight class and a class split between very high and very low scores.</span></li></ol>
+    </div>
+  </div>
+</section><section class="topic">
+  <header class="topic-head">
+    <div class="num">03</div>
+    <div class="head-text">
+      <div class="kicker">Topic 3 of 6</div>
+      <h2>Probability and distributions</h2>
+    </div>
+  </header>
+  <div class="objectives">
+    <div class="lbl">By the end of this page you can</div>
+    <ul><li>Apply the addition, multiplication and complement rules without double counting.</li><li>Use conditional probability and Bayes' rule to reverse a conditional.</li><li>Work with the binomial and normal distributions, including the empirical rule.</li></ul>
+  </div>
+  <p class="lead">Probability is the bridge between a sample and a claim. The two rules that carry most of the course are the complement (1 minus) and conditioning (given that).</p>
+  <div class="lbl section-lbl">Key ideas</div>
+  <ul class="ideas"><li><b>Complement.</b> P(not A) = 1 − P(A). "At least one" is almost always easier as 1 − P(none).</li><li><b>Addition.</b> P(A or B) = P(A) + P(B) − P(A and B). Subtract the overlap or you count it twice.</li><li><b>Multiplication.</b> P(A and B) = P(A) · P(B | A). For independent events this collapses to P(A) · P(B).</li><li><b>Conditional.</b> P(B | A) = P(A and B) / P(A). The denominator is the world you are now inside.</li><li><b>Bayes.</b> A rare condition stays rare even after a positive test, because false positives outnumber true ones. Always condition on the evidence.</li><li><b>Random variable.</b> Its mean is the expected value Σ x·P(x); its spread is the standard deviation of that distribution.</li><li><b>Binomial:</b> fixed n independent trials, two outcomes, constant p. <b>Normal:</b> symmetric bell; the empirical rule gives 68%, 95%, 99.7% within 1, 2, 3 standard deviations.</li></ul>
+  <div class="formulas"><div class="fcard">
+        <div class="lbl">Conditional probability</div>
+        <div class="ex">P(B | A) = P(A ∩ B) / P(A)</div>
+        <div class="note">Read the bar as "given": the sample space shrinks to A.</div>
+      </div><div class="fcard">
+        <div class="lbl">Binomial probability</div>
+        <div class="ex">P(X = k) = C(n,k) · pᵏ · (1 − p)ⁿ⁻ᵏ</div>
+        <div class="note">C(n,k) counts the orders in which the k successes can appear.</div>
+      </div><div class="fcard">
+        <div class="lbl">Standardising</div>
+        <div class="ex">z = (x − μ) / σ</div>
+        <div class="note">Turns any normal variable into the standard normal, so one table serves all.</div>
+      </div></div>
+  <div class="example">
+    <div class="lbl">Worked example</div>
+    <p class="problem">A disease affects 2% of a population. A test catches 95% of true cases and wrongly flags 10% of healthy people. A person tests positive. What is the chance they have the disease?</p>
+    <ol class="steps"><li>Split the population into the two ways a positive can happen.</li><li>True positive: 0.02 × 0.95 = 0.019.</li><li>False positive: 0.98 × 0.10 = 0.098.</li><li>P(positive) = 0.019 + 0.098 = 0.117.</li><li>P(disease | positive) = 0.019 / 0.117 = 0.162.</li></ol>
+    <p class="answer">About 16%. The test is accurate in both directions, yet a positive result still leaves an 84% chance of no disease, because the disease is rare and the healthy group is huge.</p>
+    <p class="takeaway">Base rates dominate. This is the calculation behind every screening programme and every "99% accurate" headline.</p>
+  </div>
+  <div class="bottom">
+    <div class="pitfalls">
+      <div class="lbl">Common mistakes</div>
+      <ul><li>Adding probabilities of events that can happen together.</li><li>Writing P(A | B) when you mean P(B | A): the test's accuracy is not the patient's chance.</li><li>Using the binomial formula when trials are not independent or p changes.</li></ul>
+    </div>
+    <div class="check">
+      <div class="lbl">Check yourself</div>
+      <ol><li><span class="q">P(A) = 0.4, P(B) = 0.5, P(A and B) = 0.2. Are A and B independent?</span>
+        <span class="a">Yes: P(A) · P(B) = 0.2 = P(A and B), equivalently P(B | A) = 0.5 = P(B).</span></li><li><span class="q">Ten independent questions, each guessed with p = 0.3. P(exactly 3 right)?</span>
+        <span class="a">C(10,3) · 0.3³ · 0.7⁷ = 120 × 0.027 × 0.0824 ≈ 0.267.</span></li><li><span class="q">Scores are normal with mean 70 and standard deviation 8. What share score above 86?</span>
+        <span class="a">z = 2, and 95% lie within ±2, so about 2.5% score above 86.</span></li></ol>
+    </div>
+  </div>
+</section><section class="topic">
+  <header class="topic-head">
+    <div class="num">04</div>
+    <div class="head-text">
+      <div class="kicker">Topic 4 of 6</div>
+      <h2>Sampling distributions and the central limit theorem</h2>
+    </div>
+  </header>
+  <div class="objectives">
+    <div class="lbl">By the end of this page you can</div>
+    <ul><li>Describe the sampling distribution of x̄ and of p̂.</li><li>Compute a standard error and explain what it measures.</li><li>State when the central limit theorem applies and why it is the engine of inference.</li></ul>
+  </div>
+  <p class="lead">One sample gives one number. The sampling distribution is the picture of what that number would do if you took the sample again and again, and it is the thing every interval and test is built on.</p>
+  <div class="lbl section-lbl">Key ideas</div>
+  <ul class="ideas"><li>A <b>statistic</b> is a random variable: repeat the sample and x̄ changes. Its distribution is the <b>sampling distribution</b>.</li><li>The sampling distribution of x̄ is centred at μ, and its standard deviation is the <b>standard error</b> σ/√n.</li><li><b>Standard error</b> measures the typical distance between a statistic and its parameter. It is not the spread of the data.</li><li>Quadruple n and the standard error halves. Precision is bought with √n, which is why doubling precision costs four times the sample.</li><li><b>Central limit theorem.</b> For independent observations, the sampling distribution of x̄ is approximately normal for large n, whatever the shape of the population. Roughly n ≥ 30 unless the population is already normal or is extremely skewed.</li><li>For a proportion, p̂ is approximately normal when np ≥ 10 and n(1 − p) ≥ 10, with standard error √(p(1 − p)/n).</li><li>A <b>finite population correction</b> √((N − n)/(N − 1)) applies only when the sample is a large share (over about 5%) of a small population.</li></ul>
+  <div class="formulas"><div class="fcard">
+        <div class="lbl">Standard error of a mean</div>
+        <div class="ex">SE(x̄) = σ / √n</div>
+        <div class="note">Estimated with s when σ is unknown, which is the usual case.</div>
+      </div><div class="fcard">
+        <div class="lbl">Standard error of a proportion</div>
+        <div class="ex">SE(p̂) = √( p(1 − p) / n )</div>
+        <div class="note">Use p̂ in the formula for an interval; use the hypothesised p for a test.</div>
+      </div><div class="fcard">
+        <div class="lbl">Standardised sample mean</div>
+        <div class="ex">z = (x̄ − μ) / SE(x̄)</div>
+        <div class="note">Valid when the sampling distribution is approximately normal.</div>
+      </div></div>
+  <div class="example">
+    <div class="lbl">Worked example</div>
+    <p class="problem">A machine fills bags with mean 48 g and standard deviation 12 g. A sample of 36 bags is weighed. Find the standard error and the chance the sample mean exceeds 51 g.</p>
+    <ol class="steps"><li>SE(x̄) = 12 / √36 = 2.0 g.</li><li>z = (51 − 48) / 2 = 1.5.</li><li>P(Z &gt; 1.5) = 1 − 0.9332 = 0.0668.</li><li>The population of fill weights need not be normal: n = 36 is enough for the central limit theorem.</li></ol>
+    <p class="answer">About 6.7% of samples of 36 bags will average above 51 g, even though the machine is set correctly. A single heavy sample is not proof of a fault.</p>
+    <p class="takeaway">The same 51 g from one bag is unremarkable; from an average of 36 it is a 1.5 standard error event, and that is the language a test speaks.</p>
+  </div>
+  <div class="bottom">
+    <div class="pitfalls">
+      <div class="lbl">Common mistakes</div>
+      <ul><li>Calling the standard error the standard deviation of the data.</li><li>Applying the central limit theorem to a sample of 5 from a wildly skewed population.</li><li>Forgetting that the standard error shrinks with √n, not with n.</li></ul>
+    </div>
+    <div class="check">
+      <div class="lbl">Check yourself</div>
+      <ol><li><span class="q">σ = 20. How large must n be for SE(x̄) = 2?</span>
+        <span class="a">n = (20/2)² = 100.</span></li><li><span class="q">Why is the sampling distribution of x̄ narrower than the population?</span>
+        <span class="a">Averaging cancels high and low values, so sample means cluster closer to μ than individual observations do.</span></li><li><span class="q">n = 400, p̂ = 0.5. Standard error?</span>
+        <span class="a">√(0.25/400) = 0.025, so about 2.5 percentage points.</span></li></ol>
+    </div>
+  </div>
+</section><section class="topic">
+  <header class="topic-head">
+    <div class="num">05</div>
+    <div class="head-text">
+      <div class="kicker">Topic 5 of 6</div>
+      <h2>Confidence intervals</h2>
+    </div>
+  </header>
+  <div class="objectives">
+    <div class="lbl">By the end of this page you can</div>
+    <ul><li>Build and interpret a confidence interval for a mean and for a proportion.</li><li>Explain what 95% confidence covers, and what it does not.</li><li>Choose a sample size for a target margin of error.</li></ul>
+  </div>
+  <p class="lead">An interval is a statement about the procedure, not about the parameter. That single sentence separates a correct answer from a confident wrong one.</p>
+  <div class="lbl section-lbl">Key ideas</div>
+  <ul class="ideas"><li>Shape: <b>estimate ± critical value × standard error</b>. The critical value is how many standard errors the confidence level buys.</li><li>For a mean with σ unknown, use t with n − 1 degrees of freedom. t is wider than z, and the gap closes as n grows.</li><li>For a proportion, use z with p̂ in the standard error, provided np̂ and n(1 − p̂) are both at least 10.</li><li><b>Interpretation.</b> 95% confidence means: if we repeated the sampling procedure many times, about 95% of the intervals produced would contain the parameter. It does not mean the parameter has a 95% chance of being in this interval.</li><li><b>Margin of error</b> is half the width. It shrinks with larger n and grows with higher confidence.</li><li><b>Sample size planning.</b> n = (z*σ / E)², rounded up. To halve the margin of error you need four times the sample.</li><li>An interval that does not contain a hypothesised value is the same evidence as a two-sided test rejecting it at the matching level.</li></ul>
+  <div class="formulas"><div class="fcard">
+        <div class="lbl">Confidence interval for a mean</div>
+        <div class="ex">x̄ ± t* · s/√n    (df = n − 1)</div>
+        <div class="note">Use z* instead when σ is known and the population is normal.</div>
+      </div><div class="fcard">
+        <div class="lbl">Confidence interval for a proportion</div>
+        <div class="ex">p̂ ± z* · √(p̂(1 − p̂)/n)</div>
+        <div class="note">z* = 1.645 for 90%, 1.96 for 95%, 2.576 for 99%.</div>
+      </div><div class="fcard">
+        <div class="lbl">Sample size for a target margin</div>
+        <div class="ex">n = ( z* · σ / E )²</div>
+        <div class="note">Always round up; use σ from a pilot study or a conservative guess.</div>
+      </div></div>
+  <div class="example">
+    <div class="lbl">Worked example</div>
+    <p class="problem">A sample of 25 students has a mean study time of 68.4 minutes per week with s = 9.2. Build a 95% confidence interval and interpret it.</p>
+    <ol class="steps"><li>df = 24, so t* = 2.064.</li><li>SE = 9.2 / √25 = 1.84 minutes.</li><li>Margin of error = 2.064 × 1.84 = 3.80 minutes.</li><li>Interval: 68.4 ± 3.80 = (64.6, 72.2) minutes.</li></ol>
+    <p class="answer">We are 95% confident that the mean weekly study time of all students is between 64.6 and 72.2 minutes. Across repeated samples, about 95% of intervals built this way would capture the true mean.</p>
+    <p class="takeaway">The width is the honest part. A narrow interval from a biased sample is precisely wrong, and a wide interval from a good one is honestly uninformative.</p>
+  </div>
+  <div class="bottom">
+    <div class="pitfalls">
+      <div class="lbl">Common mistakes</div>
+      <ul><li>Saying there is a 95% probability the mean lies in this particular interval.</li><li>Using z* with a small sample and an unknown σ.</li><li>Reporting an interval without units or without saying which parameter it covers.</li></ul>
+    </div>
+    <div class="check">
+      <div class="lbl">Check yourself</div>
+      <ol><li><span class="q">σ = 9.2, target margin 2 minutes, 95% confidence. Sample size?</span>
+        <span class="a">n = (1.96 × 9.2 / 2)² = 81.3, so 82 students.</span></li><li><span class="q">A 95% interval for a mean is (10.2, 12.8). Does a test of H₀: μ = 12 at α = 0.05 reject?</span>
+        <span class="a">No: 12 lies inside the interval, so the test does not reject.</span></li><li><span class="q">What happens to the interval width if the sample doubles?</span>
+        <span class="a">It shrinks by a factor of about √2, roughly 29%, not by half.</span></li></ol>
+    </div>
+  </div>
+</section><section class="topic">
+  <header class="topic-head">
+    <div class="num">06</div>
+    <div class="head-text">
+      <div class="kicker">Topic 6 of 6</div>
+      <h2>Hypothesis tests</h2>
+    </div>
+  </header>
+  <div class="objectives">
+    <div class="lbl">By the end of this page you can</div>
+    <ul><li>Set up H₀ and Hₐ from a research question, and pick the correct tail.</li><li>Compute a test statistic and a p-value, and state the decision in context.</li><li>Interpret α, Type I and Type II error, and what a p-value does not say.</li></ul>
+  </div>
+  <p class="lead">A test asks one narrow question: if the null hypothesis were true, how surprising is data like mine? Everything else in this topic follows from taking that sentence literally.</p>
+  <div class="lbl section-lbl">Key ideas</div>
+  <ul class="ideas"><li>H₀ is the "nothing is happening" claim and always contains an equality. Hₐ is what the researcher wants evidence for, and it sets the tail.</li><li><b>Test statistic</b> = (estimate − hypothesised value) / standard error. It says how many standard errors the data sit from H₀.</li><li><b>p-value</b> = the probability of data at least this extreme, computed <i>assuming H₀ is true</i>. It is not the probability that H₀ is true.</li><li><b>Decision.</b> p ≤ α: reject H₀. p &gt; α: fail to reject. "Fail to reject" is not "H₀ is true", only "not enough evidence against it".</li><li><b>α</b> is the tolerated Type I error rate (rejecting a true H₀). <b>β</b> is the Type II rate (missing a real effect). Power = 1 − β, and it rises with larger n and larger true effects.</li><li>A test is only as good as its conditions: random sample, independence, and a sampling distribution that is approximately normal or a large enough n.</li><li>Report the estimate, the interval and the p-value together. A p-value alone hides the size of the effect.</li></ul>
+  <div class="formulas"><div class="fcard">
+        <div class="lbl">One-sample t test</div>
+        <div class="ex">t = (x̄ − μ₀) / (s/√n)    df = n − 1</div>
+        <div class="note">Two-sided p doubles the one-tail area.</div>
+      </div><div class="fcard">
+        <div class="lbl">Two-proportion z test</div>
+        <div class="ex">z = (p̂₁ − p̂₂) / √( p̂(1 − p̂)(1/n₁ + 1/n₂) )</div>
+        <div class="note">p̂ is the pooled proportion, because H₀ says the two proportions are equal.</div>
+      </div><div class="fcard">
+        <div class="lbl">One-proportion z test</div>
+        <div class="ex">z = (p̂ − p₀) / √( p₀(1 − p₀)/n )</div>
+        <div class="note">The standard error uses p₀, the value H₀ assumes.</div>
+      </div></div>
+  <div class="example">
+    <div class="lbl">Worked example</div>
+    <p class="problem">A tutoring programme claims it raises the mean test score above 70. A sample of 16 students averages 72.5 with s = 6.0. Test at α = 0.05.</p>
+    <ol class="steps"><li>H₀: μ = 70. Hₐ: μ &gt; 70 (one-sided, because the claim is an improvement).</li><li>SE = 6.0 / √16 = 1.5. t = (72.5 − 70) / 1.5 = 1.667 with df = 15.</li><li>One-sided p = 0.058, and the critical value is t* = 1.753.</li><li>1.667 &lt; 1.753 and 0.058 &gt; 0.05: fail to reject H₀.</li></ol>
+    <p class="answer">The data are consistent with a real improvement, but not strong enough to rule out chance at the 5% level. Report the estimate and its interval: a 95% interval for the mean runs from 69.3 to 75.7, which still contains 70.</p>
+    <p class="takeaway">"Not significant" is a statement about evidence, not about truth. With a larger sample the same 2.5-point gain could become decisive.</p>
+  </div>
+  <div class="bottom">
+    <div class="pitfalls">
+      <div class="lbl">Common mistakes</div>
+      <ul><li>Saying the p-value is the probability that H₀ is true.</li><li>Choosing a one-sided test after seeing which way the data went.</li><li>Treating p &gt; 0.05 as proof of no effect, or p &lt; 0.05 as proof of a large one.</li></ul>
+    </div>
+    <div class="check">
+      <div class="lbl">Check yourself</div>
+      <ol><li><span class="q">Two groups: 45 of 120 and 32 of 110. Is the difference significant at α = 0.05?</span>
+        <span class="a">Pooled p̂ = 0.335, SE = 0.0623, z = 1.35, two-sided p = 0.18. Not significant.</span></li><li><span class="q">You run 20 tests at α = 0.05 and all nulls are true. Expected false positives?</span>
+        <span class="a">About one. This is why multiple comparisons need a correction.</span></li><li><span class="q">What raises the power of a test?</span>
+        <span class="a">A larger sample, a larger true effect, less variability, or a higher α (at the cost of more Type I errors).</span></li></ol>
+    </div>
+  </div>
+</section><section class="cheat">
+  <header class="topic-head">
+    <div class="num">&mdash;</div>
+    <div class="head-text">
+      <div class="kicker">Reference</div>
+      <h2>One-page formula sheet</h2>
+    </div>
+  </header>
+  <div class="cheat-grid"><div class="cheat-col"><div class="cheat-group"><div class="lbl">Describing data</div><div class="cheat-item"><span class="cheat-lbl">Mean</span><span class="cheat-ex">x̄ = Σxᵢ / n</span></div><div class="cheat-item"><span class="cheat-lbl">Standard deviation</span><span class="cheat-ex">s = √(Σ(xᵢ − x̄)² / (n − 1))</span></div><div class="cheat-item"><span class="cheat-lbl">IQR</span><span class="cheat-ex">Q₃ − Q₁</span></div><div class="cheat-item"><span class="cheat-lbl">Outlier fences</span><span class="cheat-ex">Q₁ − 1.5·IQR , Q₃ + 1.5·IQR</span></div><div class="cheat-item"><span class="cheat-lbl">z-score</span><span class="cheat-ex">z = (x − x̄) / s</span></div></div><div class="cheat-group"><div class="lbl">Inference</div><div class="cheat-item"><span class="cheat-lbl">Standard error, mean</span><span class="cheat-ex">SE = σ / √n</span></div><div class="cheat-item"><span class="cheat-lbl">Standard error, proportion</span><span class="cheat-ex">SE = √(p(1 − p)/n)</span></div><div class="cheat-item"><span class="cheat-lbl">CI for a mean</span><span class="cheat-ex">x̄ ± t* · s/√n , df = n − 1</span></div><div class="cheat-item"><span class="cheat-lbl">CI for a proportion</span><span class="cheat-ex">p̂ ± z* · √(p̂(1 − p̂)/n)</span></div><div class="cheat-item"><span class="cheat-lbl">One-sample t</span><span class="cheat-ex">t = (x̄ − μ₀) / (s/√n)</span></div><div class="cheat-item"><span class="cheat-lbl">Two-proportion z</span><span class="cheat-ex">z = (p̂₁ − p̂₂) / √(p̂(1 − p̂)(1/n₁ + 1/n₂))</span></div><div class="cheat-item"><span class="cheat-lbl">Sample size</span><span class="cheat-ex">n = (z*σ / E)²</span></div></div><div class="cheat-group"><div class="lbl">Notation</div><div class="cheat-pair"><span class="cheat-lbl">x̄ , μ</span><span class="cheat-ex">sample / population mean</span></div><div class="cheat-pair"><span class="cheat-lbl">p̂ , p</span><span class="cheat-ex">sample / population proportion</span></div><div class="cheat-pair"><span class="cheat-lbl">s , σ</span><span class="cheat-ex">sample / population SD</span></div><div class="cheat-pair"><span class="cheat-lbl">n , N</span><span class="cheat-ex">sample / population size</span></div><div class="cheat-pair"><span class="cheat-lbl">z* , t*</span><span class="cheat-ex">critical value</span></div><div class="cheat-pair"><span class="cheat-lbl">SE</span><span class="cheat-ex">standard error</span></div><div class="cheat-pair"><span class="cheat-lbl">df</span><span class="cheat-ex">degrees of freedom</span></div><div class="cheat-pair"><span class="cheat-lbl">α , β</span><span class="cheat-ex">Type I / Type II error rate</span></div></div></div><div class="cheat-col"><div class="cheat-group"><div class="lbl">Probability</div><div class="cheat-item"><span class="cheat-lbl">Complement</span><span class="cheat-ex">P(not A) = 1 − P(A)</span></div><div class="cheat-item"><span class="cheat-lbl">Addition</span><span class="cheat-ex">P(A or B) = P(A) + P(B) − P(A and B)</span></div><div class="cheat-item"><span class="cheat-lbl">Multiplication</span><span class="cheat-ex">P(A and B) = P(A) · P(B | A)</span></div><div class="cheat-item"><span class="cheat-lbl">Conditional</span><span class="cheat-ex">P(B | A) = P(A and B) / P(A)</span></div><div class="cheat-item"><span class="cheat-lbl">Binomial</span><span class="cheat-ex">P(X = k) = C(n,k) pᵏ (1 − p)ⁿ⁻ᵏ</span></div><div class="cheat-item"><span class="cheat-lbl">Standardise</span><span class="cheat-ex">z = (x − μ) / σ</span></div></div><div class="cheat-group"><div class="lbl">Which test when</div><div class="cheat-pair"><span class="cheat-lbl">One mean, σ unknown</span><span class="cheat-ex">one-sample t, df = n − 1</span></div><div class="cheat-pair"><span class="cheat-lbl">One proportion</span><span class="cheat-ex">one-proportion z</span></div><div class="cheat-pair"><span class="cheat-lbl">Two independent means</span><span class="cheat-ex">two-sample t</span></div><div class="cheat-pair"><span class="cheat-lbl">Paired measurements</span><span class="cheat-ex">paired t on the differences</span></div><div class="cheat-pair"><span class="cheat-lbl">Two proportions</span><span class="cheat-ex">two-proportion z</span></div><div class="cheat-pair"><span class="cheat-lbl">Two categorical variables</span><span class="cheat-ex">chi-square test</span></div></div><div class="cheat-group"><div class="lbl">Assumptions to state</div><ul class="cheat-list"><li>Random sample, or random assignment in an experiment.</li><li>Observations independent: n at most about 10% of the population.</li><li>Means: population normal, or n large enough for the central limit theorem.</li><li>Proportions: at least 10 expected successes and 10 expected failures.</li></ul></div></div></div>
+  <div class="refs"><div class="ref"><span class="cheat-lbl">z* for 90% / 95% / 99%</span>
+        <span class="ref-val">1.645 / 1.960 / 2.576</span></div><div class="ref"><span class="cheat-lbl">Empirical rule</span>
+        <span class="ref-val">68% · 95% · 99.7% within 1σ · 2σ · 3σ</span></div><div class="ref"><span class="cheat-lbl">Normality for a proportion</span>
+        <span class="ref-val">n p̂ ≥ 10 and n(1 − p̂) ≥ 10</span></div></div>
+</section>
+</body>
+</html>
