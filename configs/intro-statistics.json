@@ -1,0 +1,23 @@
+{
+  "content": "content/intro-statistics.json",
+  "output": "build/studypack-intro-statistics.pdf",
+  "theme_file": "theme/pack.css",
+  "cover_eyebrow": "Study pack",
+  "paper": "A4",
+  "paper_width_mm": 210,
+  "paper_height_mm": 297,
+  "include_cheatsheet": true,
+  "footer": {
+    "left": "STAT 101 \u00b7 Introduction to Statistics \u00b7 study pack",
+    "right": "page {n} of {total}"
+  },
+  "theme": {
+    "accent": "#1d4ed8",
+    "deep": "#101a3d",
+    "ink": "#151a2b",
+    "muted": "#5b6478",
+    "rule": "#d5dae5",
+    "paper": "#fdfcf9",
+    "tint": "#eef2fb"
+  }
+}
